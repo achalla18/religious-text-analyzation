@@ -6,13 +6,11 @@ import seaborn as sns
 from matplotlib.table import Table
 
  
-# Folder setup
- 
+# setup
 IMAGE_DIR = "images"
 os.makedirs(IMAGE_DIR, exist_ok=True)
 
- 
-# Styling (publication-quality)
+
  
 sns.set_theme(
     style="whitegrid",
@@ -34,13 +32,9 @@ with open("religious_texts_analysis.json", encoding="utf-8") as f:
 df = pd.DataFrame(data).T.reset_index()
 df.rename(columns={"index": "source"}, inplace=True)
 
- 
-# Derived numeric metrics
- 
-df["command_density"] = df["total_command_words"] / df["total_words"]
 
  
-# 1. Reading Level Comparison
+df["command_density"] = df["total_command_words"] / df["total_words"]
  
 plt.figure(figsize=(10, 6))
 sns.barplot(
@@ -57,7 +51,6 @@ plt.savefig(os.path.join(IMAGE_DIR, "reading_level_comparison.png"))
 plt.close()
 
  
-# 2. Lexical Complexity
  
 plt.figure(figsize=(10, 6))
 sns.barplot(
@@ -73,9 +66,7 @@ plt.tight_layout()
 plt.savefig(os.path.join(IMAGE_DIR, "lexical_complexity.png"))
 plt.close()
 
- 
-# 3. Command Density
- 
+
 plt.figure(figsize=(10, 6))
 sns.barplot(
     data=df,
@@ -90,9 +81,7 @@ plt.tight_layout()
 plt.savefig(os.path.join(IMAGE_DIR, "command_density.png"))
 plt.close()
 
- 
-# 4. Complexity vs Authority
- 
+
 plt.figure(figsize=(9, 6))
 sns.scatterplot(
     data=df,
@@ -108,9 +97,7 @@ plt.tight_layout()
 plt.savefig(os.path.join(IMAGE_DIR, "complexity_vs_authority.png"))
 plt.close()
 
- 
-# 5. Z-score Heatmap (SAFE numeric handling)
- 
+
 metrics = [
     "flesch_kincaid_grade",
     "unique_to_total_ratio",
@@ -134,9 +121,6 @@ plt.tight_layout()
 plt.savefig(os.path.join(IMAGE_DIR, "metric_heatmap.png"))
 plt.close()
 
- 
-# 6. Common Words (per text)
- 
 for _, row in df.iterrows():
     words = row["most_frequent_words"][:10]
     word_df = pd.DataFrame(words, columns=["word", "count"])
@@ -156,9 +140,7 @@ for _, row in df.iterrows():
     ))
     plt.close()
 
- 
-# 7. Common Phrases (Bigrams)
- 
+
 for _, row in df.iterrows():
     phrases = row["most_frequent_bigrams"][:10]
     phrase_df = pd.DataFrame(phrases)
@@ -178,8 +160,6 @@ for _, row in df.iterrows():
     ))
     plt.close()
 
- 
-# 8. Summary Table (as Image)
  
 summary_cols = [
     "total_words",
